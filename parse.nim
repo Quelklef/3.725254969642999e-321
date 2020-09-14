@@ -25,15 +25,13 @@ proc parse_numeral(source: string): uint64 =
 
   of 'b':  # binary
     for c in source:
-      if c notin {'0', '1'}:
+      if c notin "01":
         raise ParsingException.newException("Malformed numeral")
       result = 2 * result + cast[uint64](c) - cast[uint64]('0')
 
   of 'x':  # hex
     for c in source:
-      if c notin {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-                  'A', 'B', 'C', 'D', 'E', 'F',
-                  'a', 'b', 'c', 'd', 'e', 'f'}:
+      if c notin "0123456789ABCDEFabcdef":
         raise ParsingException.newException("Malformed numeral")
 
       var val: uint64;  # case expr not working for some reason
