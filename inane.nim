@@ -20,6 +20,10 @@ proc execute*(stack: seq[uint64]): void =
   var instr_ptr = 0'u64
   while true:
 
+    # Enforce stack being only nans
+    if not stack.has_only_nans:
+      abort "nan"
+
     # Error if instruction pointer is out of bounds
     if instr_ptr.int >= stack.len:
       abort "nib"
@@ -37,10 +41,6 @@ proc execute*(stack: seq[uint64]): void =
     # Execute instruction
     let instr: Instr = instr_impls_by_code[instr_code]
     instr(stack, instr_ptr)
-
-    # Enforce stack being only nans
-    if not stack.has_only_nans:
-      abort "nan"
 
 proc execute*(source: string): void =
   let instrs = parse(source)
