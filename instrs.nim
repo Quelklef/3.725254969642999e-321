@@ -1,5 +1,8 @@
 import tables
 import bitops
+import sugar
+import sequtils
+import strutils
 
 import util
 
@@ -58,6 +61,12 @@ instr "drop", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
 # Print the top item
 instr "show", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   echo cast[float64](stack.top).`$`
+  instr_ptr += 1
+
+# Print the entire stack
+# Useful for debugging ;)
+instr "dump", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+  echo "[" & stack.map(val => cast[float64](val).`$`).join(", ") & "]"
   instr_ptr += 1
 
 # Print the top item as asn ascii character, according to the first 7 bits
