@@ -24,6 +24,9 @@ proc instr(name: string, impl: Instr): void =
   instr_names_by_code[code] = name
   instr_impls_by_code[code] = impl
 
+
+# == Control Flow == #
+
 # End the program (no implementation, handled specially)
 instr "stop", nil
 
@@ -60,10 +63,31 @@ instr "[", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
 instr "]", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   instr_ptr += 1
 
+
+# == Value Shuffling == #
+
 # Move the next item onto the top of the stack
 instr "push", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   stack.add stack[instr_ptr + 1]
   instr_ptr += 2
+
+# Duplicate the top item of the stack
+instr "2", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+  stack.add: stack.top
+  instr_ptr += 1
+
+# Swap the top two values
+instr "@", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+  stack.add: [stack.pop, stack.pop]  # An obfuscated but cool implementation!
+  instr_ptr += 1
+
+# Pop the top item
+instr "drop", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+  discard stack.pop
+  instr_ptr += 1
+
+
+# == Value Manipulation == #
 
 # Increment the top item
 instr "inct", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
@@ -98,25 +122,8 @@ instr "rotl", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   stack.add: (top shl 1).bitor(top shr 63)
   instr_ptr += 1
 
-# Pop the top item
-instr "drop", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
-  discard stack.pop
-  instr_ptr += 1
 
-# Duplicate the top item of the stack
-instr "2", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
-  stack.add: stack.top
-  instr_ptr += 1
-
-# Swap the top two values
-instr "@", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
-  stack.add: [stack.pop, stack.pop]  # An obfuscated but cool implementation!
-  instr_ptr += 1
-
-# Print the top item
-instr "show", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
-  echo cast[float64](stack.top).`$`
-  instr_ptr += 1
+# == IO == #
 
 # Read a character from stdin
 instr "read", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
@@ -129,6 +136,11 @@ instr "read", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
     chr = '\0'
 
   stack.add: cast[uint64](chr).bitor nan_zero
+  instr_ptr += 1
+
+# Print the top item
+instr "show", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+  echo cast[float64](stack.top).`$`
   instr_ptr += 1
 
 # Print the entire stack
