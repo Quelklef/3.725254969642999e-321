@@ -1,0 +1,63 @@
+
+here
+
+  read
+  char
+
+  push nan/x'0 swap
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  negt >>>> if swap if negt fi negt swap negt fi
+  drop
+
+if drop back fi
+
+stop
