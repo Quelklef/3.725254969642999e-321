@@ -19,3 +19,7 @@ proc to_binary*(n: uint64): string =
   for i in countdown(63, 0):
     let c = cast[char](cast[uint64]('0') + (n shr i).bitand(1))
     result &= c
+
+proc abort*(msg: string): void =
+  echo msg
+  quit(1)

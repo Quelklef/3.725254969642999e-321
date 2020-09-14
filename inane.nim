@@ -3,15 +3,12 @@ import strutils
 import tables
 import os
 
+import util
 import parse
 import instrs
 
 proc has_only_nans(stack: seq[uint64]): bool =
   stack.all(proc (item: uint64): bool = cast[float64](item).`$` == "nan")
-
-proc abort(msg: string): void =
-  echo msg
-  quit(1)
 
 proc execute*(stack: seq[uint64]): void =
   # make `var` copy of supplied stack
