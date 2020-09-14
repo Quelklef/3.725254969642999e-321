@@ -25,7 +25,7 @@ proc execute*(stack: seq[uint64]): void =
       abort "nan"
 
     # Error if instruction pointer is out of bounds
-    if instr_ptr.int >= stack.len:
+    if instr_ptr < 0 or instr_ptr.int >= stack.len:
       abort "nib"
 
     let instr_code = stack[instr_ptr]
