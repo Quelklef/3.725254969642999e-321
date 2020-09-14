@@ -7,8 +7,8 @@ const nan_zero = 0b0111111111111000000000000000000000000000000000000000000000000
 
 type Instr* = proc(stack: var seq[uint64], instr_ptr: var uint64): void
 
-var instr_name_to_code* = newTable[string, uint64]()
-var instr_code_to_impl* = newTable[uint64, Instr]()
+var instr_codes_by_name* = newTable[string, uint64]()
+var instr_impls_by_code* = newTable[uint64, Instr]()
 
 var code_counter = 0'u64
 
@@ -18,8 +18,8 @@ proc next_code(): uint64 =
 
 proc instr(name: string, impl: Instr): void =
     let code = next_code();
-    instr_name_to_code[name] = code
-    instr_code_to_impl[code] = impl
+    instr_codes_by_name[name] = code
+    instr_impls_by_code[code] = impl
 
 # End the program (no implementation, handled specially)
 instr "stop", nil

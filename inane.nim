@@ -21,15 +21,15 @@ proc execute(stack: seq[uint64]): void =
         let instr_code = stack[instr_ptr]
 
         # Error if instruction is unknown
-        if instr_code notin instr_code_to_impl:
+        if instr_code notin instr_impls_by_code:
             raise ValueError.newException("nai")
 
         # Break if instruction is to terminate
-        if instr_code == instr_name_to_code["stop"]:
+        if instr_code == instr_codes_by_name["stop"]:
             break
 
         # Execute instruction
-        let instr: Instr = instr_code_to_impl[instr_code]
+        let instr: Instr = instr_impls_by_code[instr_code]
         instr(stack, instr_ptr)
 
         # Enforce stack being only nans
@@ -47,7 +47,7 @@ proc execute(instrs: string): void =
         .filterIt(it.strip != "")
         .mapIt(
           if '0' in it or '1' in it: it.parse_bin
-          else: instr_name_to_code[it]
+          else: instr_codes_by_name[it]
         )
 
     execute(stack)
