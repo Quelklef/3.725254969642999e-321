@@ -21,6 +21,9 @@ proc index_of*(str: string, substr: string): int =
       return i
   raise ValueError.newException("String does not contain substring")
 
+proc index_of*(str: string, ch: char): int =
+  str.index_of $ch
+
 proc to_binary*(n: uint64): string =
   for i in countdown(63, 0):
     let c = cast[char](cast[uint64]('0') + (n shr i).bitand(1))

@@ -1,5 +1,7 @@
 # iNaNe/3.725254969642999e-321
 
+**(This readme is somewhat outdated)**
+
 *3.725254969642999e-321*, also called *iNaNe*, is an esoteric programming language centered around the IEEE 754 standard for floating-point numbers.
 
 ## At a glance

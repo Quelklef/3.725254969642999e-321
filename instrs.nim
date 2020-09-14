@@ -5,23 +5,14 @@ import sequtils
 import strutils
 
 import util
+import parse
 
 type Instr* = proc(stack: var seq[uint64], instr_ptr: var uint64): void
 
-var instr_codes_by_name* = newTable[string, uint64]()
-var instr_names_by_code* = newTable[uint64, string]()
 var instr_impls_by_code* = newTable[uint64, Instr]()
 
-var code_counter = 0'u64
-
-proc next_code(): uint64 =
-  result = code_counter.nannify
-  code_counter += 1
-
 proc instr(name: string, impl: Instr): void =
-  let code = next_code();
-  instr_codes_by_name[name] = code
-  instr_names_by_code[code] = name
+  let code = symbol_to_code(name);
   instr_impls_by_code[code] = impl
 
 
@@ -50,9 +41,9 @@ instr "[", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
     var depth = 0
     for idx in instr_ptr ..< stack.len.uint64:
       let instr_code = stack[idx]
-      if instr_code == instr_codes_by_name["["]:
+      if instr_code == symbol_to_code("["):
         depth += 1
-      elif instr_code == instr_codes_by_name["]"]:
+      elif instr_code == symbol_to_code("]"):
         depth -= 1
       if depth == 0:
         instr_ptr = idx
@@ -126,7 +117,7 @@ instr "rotl", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
 # == IO == #
 
 # Read a character from stdin
-instr "read", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+instr "get", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   var chr: char
   try:
     chr = stdin.read_char
@@ -137,23 +128,23 @@ instr "read", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   instr_ptr += 1
 
 # Print the top item
-instr "show", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+instr "put", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   echo cast[float64](stack.top).`$`
   instr_ptr += 1
 
 # Print the entire stack
 # Useful for debugging ;)
-instr "show/stack", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+instr "put/all", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   echo "[" & stack.map(val => cast[float64](val).`$`).join(", ") & "]"
   instr_ptr += 1
 
 # Print the top item as asn ascii character, according to the first 7 bits
-instr "show/char", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+instr "put/char", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   stdout.write stack.top.bitand(0b1111111).char
   instr_ptr += 1
 
 # Print the top item as a bitvector
-instr "show/bits", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+instr "put/bits", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   var chars = ""
   for i in countdown(63, 0):
     chars &= (stack.top shr i).bitand(1).`$`

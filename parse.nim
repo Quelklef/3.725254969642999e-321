@@ -1,11 +1,29 @@
 import strutils
 import sequtils
-import tables
 
 import util
-import instrs
 
 type ParsingException = object of CatchableError
+
+const symbol_chars =
+  "abcdefghijklmnopqrstuvwxyz0123456789<>()[]{}~!@#$%^&*-+_=?:;,.'\"\\/|`"
+
+assert symbol_chars.len == 68
+
+proc symbol_to_code*(symbol: string): uint64 =
+  let symbol = symbol.to_lower_ascii
+
+  # Using 9+ chars requires 52 or more bits, which overlaps with nannified bits
+  # Thus, disallow symbols above 8 chars
+  if symbol.len >= 9:
+    raise ParsingException.newException("Symbol '" & symbol & "' is too large!")
+
+  for ch in symbol:
+    if ch notin symbol_chars:
+      raise ParsingException.newException("Symbol '" & symbol & "' is invalid!")
+    result = symbol_chars.len * result + symbol_chars.index_of(ch).uint64
+
+  result = result.nannify
 
 proc parse_numeral(source: string): uint64 =
   var source = source
@@ -50,7 +68,6 @@ proc parse_numeral(source: string): uint64 =
   if nanned:
     result = result.nannify
 
-
 proc parse*(source: string): seq[uint64] =
 
   return source
@@ -66,7 +83,4 @@ proc parse*(source: string): seq[uint64] =
     # Parse into codes
     .split({'\n', ' '})
     .filterIt(it.strip != "")
-    .mapIt(
-      if it in instr_codes_by_name: instr_codes_by_name[it]
-      else: parse_numeral(it)
-    )
+    .mapIt(if '\'' in it: parse_numeral(it) else: symbol_to_code(it))  # FIXME: disallows apostrophes in symbols

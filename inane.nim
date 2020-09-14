@@ -31,7 +31,7 @@ proc execute*(stack: seq[uint64]): void =
       abort "NaI"
 
     # Break if instruction is to terminate
-    if instr_code == instr_codes_by_name["stop"]:
+    if instr_code == symbol_to_code("stop"):
       break
 
     # Execute instruction

@@ -1,6 +1,6 @@
--- `show/char drop` x 14
-show/char drop show/char drop show/char drop show/char drop show/char drop show/char drop show/char drop
-show/char drop show/char drop show/char drop show/char drop show/char drop show/char drop show/char drop
+-- `put/char drop` x 14
+put/char drop put/char drop put/char drop put/char drop put/char drop put/char drop put/char drop
+put/char drop put/char drop put/char drop put/char drop put/char drop put/char drop put/char drop
 
 stop
 
