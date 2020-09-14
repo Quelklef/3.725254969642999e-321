@@ -3,8 +3,6 @@ import bitops
 
 import util
 
-const nan_zero = 0b0111111111111000000000000000000000000000000000000000000000000000'u64
-
 type Instr* = proc(stack: var seq[uint64], instr_ptr: var uint64): void
 
 var instr_codes_by_name* = newTable[string, uint64]()

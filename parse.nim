@@ -1,14 +1,58 @@
 import strutils
 import sequtils
 import tables
+import bitops
 
 import util
 import instrs
 
-proc parse_bin(str: string): uint64 =
-  for c in str:
-    let v = if c == '0': 0 else: 1
-    result = 2 * result + v.uint64
+type ParsingException = object of CatchableError
+
+proc parse_numeral(source: string): uint64 =
+  var source = source
+
+  let nanned = source.starts_with("nan/")
+  if nanned: source = source["nan/".len ..< source.len]
+
+  let kind = source[0]
+  source = source[1 ..< source.len]
+
+  if source[0] != '\'':
+    raise ParsingException.newException("Malformed numeral")
+  source = source[1 ..< source.len]
+
+  case kind
+
+  of 'b':  # binary
+    for c in source:
+      if c notin {'0', '1'}:
+        raise ParsingException.newException("Malformed numeral")
+      result = 2 * result + cast[uint64](c) - cast[uint64]('0')
+
+  of 'x':  # hex
+    for c in source:
+      if c notin {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                  'A', 'B', 'C', 'D', 'E', 'F',
+                  'a', 'b', 'c', 'd', 'e', 'f'}:
+        raise ParsingException.newException("Malformed numeral")
+
+      var val: uint64;  # case expr not working for some reason
+      if c <= '9': val = cast[uint64](c) - cast[uint64]('0')
+      elif c <= 'F': val = 10 + cast[uint64](c) - cast[uint64]('A')
+      elif c <= 'f': val = 10 + cast[uint64](c) - cast[uint64]('a')
+
+      result = 16 * result + val
+
+  of 'a':  # ascii
+    for c in source:
+      result = 256 * result + cast[uint64](c)
+
+  else:
+    raise ParsingException.newException("Malformed numeral")
+
+  if nanned:
+    result = result.bitor nan_zero
+
 
 proc parse*(source: string): seq[uint64] =
 
@@ -26,6 +70,6 @@ proc parse*(source: string): seq[uint64] =
     .split({'\n', ' '})
     .filterIt(it.strip != "")
     .mapIt(
-      if '0' in it or '1' in it: it.parse_bin
-      else: instr_codes_by_name[it]
+      if it in instr_codes_by_name: instr_codes_by_name[it]
+      else: parse_numeral(it)
     )
