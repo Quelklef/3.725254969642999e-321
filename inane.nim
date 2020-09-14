@@ -1,6 +1,7 @@
 import sequtils
 import strutils
 import tables
+import os
 
 import parse
 import instrs
@@ -42,11 +43,10 @@ proc execute*(source: string): void =
   execute instrs
 
 when isMainModule:
-  execute """
+  if paramCount() != 1:
+    echo "Expected exactly one command-line argument"
+    quit(1)
 
-  -- comment
-  push 0111111111111000000000000000000000000000000000000000000001100001
-  char
-  stop
-
-  """
+  let filename = paramStr(1)
+  let source = filename.readFile
+  execute source
