@@ -41,9 +41,11 @@ instr "back", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
         instr_ptr = (stack[0] - 1).bitand(nan_zero.bitnot)
     stack.delete(0)
 
-# Push 0b0111111111111000000000000000000000000000000000000000000000000000 onto the stack
+# Move the next item onto the top of the stack
 instr "push", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
-    stack.add 0b0111111111111000000000000000000000000000000000000000000000000000'u64
+    let next = stack[instr_ptr + 1]
+    stack.delete(instr_ptr + 1)
+    stack.add next
     instr_ptr += 1
 
 # Increment the top item
@@ -103,29 +105,25 @@ proc execute(stack: seq[uint64]): void =
         if not stack.has_only_nans:
             raise ValueError.newException("nan")
 
+proc parse_bin(str: string): uint64 =
+  for c in str:
+    let v = if c == '0': 0 else: 1
+    result = 2 * result + v.uint64
+
 proc execute(instrs: string): void =
     let stack = instrs
         .split({'\n', ' '})
         .filterIt(it.strip != "")
-        .mapIt(instr_name_to_code[it])
+        .mapIt(
+          if '0' in it or '1' in it: it.parse_bin
+          else: instr_name_to_code[it]
+        )
 
     execute(stack)
 
-# 0b01111111111100000000000000x0000000000000000000000000000000000000
-
 execute("""
 
-push
-inct inct inct inct inct inct inct inct inct inct
-inct inct inct inct inct inct inct inct inct inct
-inct inct inct inct inct inct inct inct inct inct
-inct inct inct inct inct inct inct inct inct inct
-inct inct inct inct inct inct inct inct inct inct
-inct inct inct inct inct inct inct inct inct inct
-inct inct inct inct inct inct inct inct inct inct
-inct inct inct inct inct inct inct inct inct inct
-inct inct inct inct inct inct inct inct inct inct
-inct inct inct inct inct inct inct inct
+push 0111111111111000000000000000000000000000000000000000000001100001
 char
 stop
 
@@ -133,4 +131,5 @@ stop
 
 echo "done"
 
-echo cast[float64](754)
+
+
