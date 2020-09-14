@@ -1,16 +1,16 @@
-push nan/a'H  char -- H
-push nan/a'e  char -- e
-push nan/a'l  char -- l
-push nan/a'l  char -- l
-push nan/a'o  char -- o
-push nan/a',  char -- ,
-push nan/x'20 char -- space
-push nan/a'w  char -- w
-push nan/a'o  char -- o
-push nan/a'r  char -- r
-push nan/a'l  char -- l
-push nan/a'd  char -- d
-push nan/a'!  char -- !
-push nan/x'0A char -- newline
+push nan/a'H  show/char -- H
+push nan/a'e  show/char -- e
+push nan/a'l  show/char -- l
+push nan/a'l  show/char -- l
+push nan/a'o  show/char -- o
+push nan/a',  show/char -- ,
+push nan/x'20 show/char -- space
+push nan/a'w  show/char -- w
+push nan/a'o  show/char -- o
+push nan/a'r  show/char -- r
+push nan/a'l  show/char -- l
+push nan/a'd  show/char -- d
+push nan/a'!  show/char -- !
+push nan/x'0A show/char -- newline
 stop
 

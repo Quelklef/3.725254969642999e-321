@@ -1,63 +1,63 @@
 
-here
+{
 
   read
-  char
+  show/char
 
-  push nan/x'0 swap
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
-  negt >>>> if swap if negt fi negt swap negt fi
+  push nan/x'0 @
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
+  neg rotr [ @ [ neg ] neg @ neg ]
   drop
 
-if drop back fi
+[ drop } ]
 
 stop
