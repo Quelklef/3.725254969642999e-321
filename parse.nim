@@ -1,7 +1,6 @@
 import strutils
 import sequtils
 import tables
-import bitops
 
 import util
 import instrs
@@ -49,7 +48,7 @@ proc parse_numeral(source: string): uint64 =
     raise ParsingException.newException("Malformed numeral")
 
   if nanned:
-    result = result.bitor nan_zero
+    result = result.nannify
 
 
 proc parse*(source: string): seq[uint64] =

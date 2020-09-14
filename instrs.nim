@@ -15,7 +15,7 @@ var instr_impls_by_code* = newTable[uint64, Instr]()
 var code_counter = 0'u64
 
 proc next_code(): uint64 =
-  result = code_counter.bitor nan_zero
+  result = code_counter.nannify
   code_counter += 1
 
 proc instr(name: string, impl: Instr): void =
@@ -32,12 +32,12 @@ instr "stop", nil
 
 # Push the instruction pointer, nannified
 instr "{", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
-  stack.add: instr_ptr.bitor(nan_zero)
+  stack.add: instr_ptr.nannify
   instr_ptr += 1
 
 # Pop the top value, denannify it, and set the instruction pointer to it
 instr "}", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
-  instr_ptr = stack.pop.bitand(nan_zero.bitnot)
+  instr_ptr = stack.pop.denannify
 
 # If the top value is unsigned, advance to the matching `fi`.
 # Otherwise, do nothing.
@@ -127,15 +127,13 @@ instr "rotl", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
 
 # Read a character from stdin
 instr "read", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
-  #stack.add: cast[uint64](stdin.read_char).bitor nan_zero
-
   var chr: char
   try:
     chr = stdin.read_char
   except EOFError:
     chr = '\0'
 
-  stack.add: cast[uint64](chr).bitor nan_zero
+  stack.add: cast[uint64](chr).nannify
   instr_ptr += 1
 
 # Print the top item
