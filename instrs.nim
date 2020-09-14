@@ -63,6 +63,11 @@ instr "show", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   echo cast[float64](stack.top).`$`
   instr_ptr += 1
 
+# Read a character from stdin
+instr "read", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+  stack.add: cast[uint64](stdin.read_char).bitor nan_zero
+  instr_ptr += 1
+
 # Print the entire stack
 # Useful for debugging ;)
 instr "dump", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
