@@ -64,5 +64,5 @@ instr "show", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
 
 # Print the top item as asn ascii character, according to the first 7 bits
 instr "char", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
-    echo stack.top.bitand(0b1111111).char
+    stdout.write stack.top.bitand(0b1111111).char
     instr_ptr += 1
