@@ -57,7 +57,7 @@ instr "[", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
       if depth == 0:
         instr_ptr = idx
         return
-    abort "nmf"
+    abort "NpI"
 
 # Noop
 instr "]", proc(stack: var seq[uint64], instr_ptr: var uint64): void =

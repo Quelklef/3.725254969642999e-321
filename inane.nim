@@ -18,17 +18,17 @@ proc execute*(stack: seq[uint64]): void =
 
     # Enforce stack being only nans
     if not stack.has_only_nans:
-      abort "nan"
+      abort "NeN"
 
     # Error if instruction pointer is out of bounds
     if instr_ptr < 0 or instr_ptr.int >= stack.len:
-      abort "nib"
+      abort "NiB"
 
     let instr_code = stack[instr_ptr]
 
     # Error if instruction is unknown
     if instr_code notin instr_impls_by_code:
-      abort "nai"
+      abort "NaI"
 
     # Break if instruction is to terminate
     if instr_code == instr_codes_by_name["stop"]:
