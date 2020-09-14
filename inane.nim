@@ -44,6 +44,7 @@ proc execute*(source: string): void =
 when isMainModule:
   execute """
 
+  -- comment
   push 0111111111111000000000000000000000000000000000000000000001100001
   char
   stop

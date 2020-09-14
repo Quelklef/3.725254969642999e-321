@@ -2,6 +2,7 @@ import strutils
 import sequtils
 import tables
 
+import util
 import instrs
 
 proc parse_bin(str: string): uint64 =
@@ -10,7 +11,18 @@ proc parse_bin(str: string): uint64 =
     result = 2 * result + v.uint64
 
 proc parse*(source: string): seq[uint64] =
+
   return source
+
+    # Remove comments
+    .split('\n')
+    .mapIt(
+      if "--" notin it: it
+      else: it[0 ..< it.index_of("--")]
+    )
+    .join("\n")
+
+    # Parse into codes
     .split({'\n', ' '})
     .filterIt(it.strip != "")
     .mapIt(
