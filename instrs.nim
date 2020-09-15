@@ -3,6 +3,7 @@ import bitops
 import sugar
 import sequtils
 import strutils
+import math
 
 import util
 import parse
@@ -89,6 +90,32 @@ instr "++", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
 instr "--", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   stack.add: stack.pop - 1
   instr_ptr += 1
+
+# Floating-point addition
+instr "+", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+  stack.add cast[uint64](cast[float64](stack.pop) + cast[float64](stack.pop))
+  instr_ptr += 1
+
+# Floating-point subtraction
+instr "-", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+  stack.add cast[uint64](cast[float64](stack.pop) - cast[float64](stack.pop))
+  instr_ptr += 1
+
+# Floating-point multiplication
+instr "*", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+  stack.add cast[uint64](cast[float64](stack.pop) * cast[float64](stack.pop))
+  instr_ptr += 1
+
+# Floating-point division
+instr "/", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+  stack.add cast[uint64](cast[float64](stack.pop) / cast[float64](stack.pop))
+  instr_ptr += 1
+
+# Floating-point exponentiation
+instr "**", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+  stack.add cast[uint64](cast[float64](stack.pop).pow cast[float64](stack.pop))
+  instr_ptr += 1
+
 
 # Flip the sign bit of the top item
 instr "neg", proc(stack: var seq[uint64], instr_ptr: var uint64): void =

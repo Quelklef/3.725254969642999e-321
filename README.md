@@ -51,6 +51,11 @@ See `examples/`
 |`drop`|Remove the top value from the stack|
 |`++`|Increment the top value of the stack, treating it as an unsigned integer|
 |`--`|Decrement the top value of the stack, treating it as an unsigned integer|
+|`+`|Pop the top two values, add them as floats, and push the result.|
+|`-`|Pop the top two values, subtract them as floats, and push the result.|
+|`*`|Pop the top two values, multiply them as floats, and push the result.|
+|`/`|Pop the top two values, divide them as floats, and push the result.|
+|`**`|Pop the top two values, exponentiate them as floats, and push the result.|
 |`neg`|Toggle the sign bit on the top value of the stack|
 |`rotr`|Rotate the bits of the top value of the stack to the right, wrapping|
 |`rotl`|Rotate the bits of the top value of the stack to the left, wrapping|
