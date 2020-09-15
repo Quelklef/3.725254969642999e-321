@@ -63,12 +63,12 @@ instr "push", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   instr_ptr += 2
 
 # Duplicate the top item of the stack
-instr "2", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+instr "dup", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   stack.add: stack.top
   instr_ptr += 1
 
 # Swap the top two values
-instr "@", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+instr "swap", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   stack.add: [stack.pop, stack.pop]  # An obfuscated but cool implementation!
   instr_ptr += 1
 
@@ -81,12 +81,12 @@ instr "drop", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
 # == Value Manipulation == #
 
 # Increment the top item
-instr "inct", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+instr "++", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   stack.add: stack.pop + 1
   instr_ptr += 1
 
 # Decrement the top item
-instr "dect", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+instr "--", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   stack.add: stack.pop - 1
   instr_ptr += 1
 
@@ -117,7 +117,7 @@ instr "rotl", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
 # == IO == #
 
 # Read a character from stdin
-instr "get", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
+instr "get/char", proc(stack: var seq[uint64], instr_ptr: var uint64): void =
   var chr: char
   try:
     chr = stdin.read_char

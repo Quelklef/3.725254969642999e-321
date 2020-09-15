@@ -6,7 +6,7 @@ import util
 type ParsingException = object of CatchableError
 
 const symbol_chars =
-  "abcdefghijklmnopqrstuvwxyz0123456789<>()[]{}~!@#$%^&*-+_=?:;,.'\"\\/|`"
+  "abcdefghijklmnopqrstuvwxyz0123456789<>()[]{}~!@#$%^&*-+_=?:;,.'\"`\\/|"
 
 assert symbol_chars.len == 68
 
@@ -16,11 +16,11 @@ proc symbol_to_code*(symbol: string): uint64 =
   # Using 9+ chars requires 52 or more bits, which overlaps with nannified bits
   # Thus, disallow symbols above 8 chars
   if symbol.len >= 9:
-    raise ParsingException.newException("Symbol '" & symbol & "' is too large!")
+    abort "NvS"
 
   for ch in symbol:
     if ch notin symbol_chars:
-      raise ParsingException.newException("Symbol '" & symbol & "' is invalid!")
+      abort "NvS"
     result = symbol_chars.len * result + symbol_chars.index_of(ch).uint64
 
   result = result.nannify
@@ -35,7 +35,7 @@ proc parse_numeral(source: string): uint64 =
   source = source[1 ..< source.len]
 
   if source[0] != '\'':
-    raise ParsingException.newException("Malformed numeral")
+    abort "NvN"
   source = source[1 ..< source.len]
 
   case kind
@@ -43,13 +43,13 @@ proc parse_numeral(source: string): uint64 =
   of 'b':  # binary
     for c in source:
       if c notin "01":
-        raise ParsingException.newException("Malformed numeral")
+        abort "NvN"
       result = 2 * result + cast[uint64](c) - cast[uint64]('0')
 
   of 'x':  # hex
     for c in source:
       if c notin "0123456789ABCDEFabcdef":
-        raise ParsingException.newException("Malformed numeral")
+        abort "NvN"
 
       var val: uint64;  # case expr not working for some reason
       if c <= '9': val = cast[uint64](c) - cast[uint64]('0')
@@ -63,7 +63,7 @@ proc parse_numeral(source: string): uint64 =
       result = 256 * result + cast[uint64](c)
 
   else:
-    raise ParsingException.newException("Malformed numeral")
+    abort "NvN"
 
   if nanned:
     result = result.nannify

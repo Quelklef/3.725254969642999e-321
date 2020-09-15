@@ -13,4 +13,3 @@ push nan/a'd  put/char -- d
 push nan/a'!  put/char -- !
 push nan/x'0A put/char -- newline
 stop
-

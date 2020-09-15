@@ -1,16 +1,13 @@
-# iNaNe/3.725254969642999e-321
+# 3.725254969642999e-321
 
-**(This readme is somewhat outdated)**
-
-*3.725254969642999e-321*, also called *iNaNe*, is an esoteric programming language centered around the IEEE 754 standard for floating-point numbers.
+*3.725254969642999e-321* is an esoteric programming language centered around the IEEE 754 standard for floating-point numbers.
 
 ## At a glance
 
-Here's the elevator pitch:
-
 - Stack-based
-- Every value on the stack must encode a valid IEEE 754 NaN value, or the program will crash
-- Extremely simple: lexical tokens translate 1-to-1 to interpreter instructions / runtime data
+- Code and data both live on the same
+  - This isn't really used in any interesting way, though
+- The stack must always consist only of valid IEEE 754 64-bit NaN values, or the program will crash
 - Generally hard to use and not very useful
 
 ## Terms
@@ -23,110 +20,56 @@ Here's the elevator pitch:
 
 ## Syntax
 
-The first thing to understand about iNaNe is that a program is entirely defined by a sequence of floating-point values, called its *stack*. The syntax acts only to give convenient names to certain floats, so that we may write this sequence more easily.
+The first thing to understand about *3.725254969642999e-321* is that a program is entirely defined by a sequence of floating-point values, called its *stack*. Both the program code *and* its data are stored on the stack.
 
-There are two ways to write a float in iNaNe:
-
-1. As a numeral literal: `b'DIGITS` for binary, `x'DIGITS` for hexidecimal, and `a'DIGITS` for ascii. Prefix with `nan/` to nannify the value.
-2. As a symbol: every float that can be executed by the interpreter gets its own symbol. There is a table of these below.
+A *3.725254969642999e-321* program is written as a sequence of words, but each word maps directly to a floating-point value:
+- A symbol, which is a sequence of characters from `abcdefghijklmnopqrstuvwxyz0123456789<>()[]{}~!@#$%^&*-+_=?:;,.'"`\/|``, is converted to an integer by interpretering the symbol as a number where the above characters are digits. This value is then nannified and then casted to a float. Uppercase letters are also allowed but are normalized to lowercase. Symbols may not be more than 8 characters long; above this, the data would overlap with the `1`s required for nannification.
+- A numeral, which is either `b'DIGITS`, `x'DIGITS`, or `a'CHARS`, optionally prefixed with `nan/`, designates a float more directly: the digits are converted either from `b`inary, he`x`adecimal, or `a`scii (padded to 8 bits), nannified if the numeral begins with `nan/`, and casted to a float.
 
 ## Execution
 
-Once the iNaNe code has been parsed into a stack, it may be executed. Before and after each instruction during execution, the stack must consist only of NaN values, or the program will crash.
+Once the code has been parsed into a stack, it may be executed. Before and after each instruction during execution, the stack must consist only of valid IEEE 754 NaN values, or the program will crash.
 
-The interpreter begins with the bottom value on the stack. Interpreting the value as an instruction, it performs the appropriate actions. Except for in certain cases, such as with the `}` instruction, the interpreter will now move onto the next instruction.
+The interpreter keeps track of the current instruction with an 'instruction pointer', which starts at `0`. It repeatedly gets the instruction at the location in the stack given by the instruction pointer and performs the associated action. Except for in certain cases, such as those of loops, the instruction pointer is then incremented.
 
 ## Examples
 
-#### Hello, world! #1
-
-Relatively simple and uninteresting (#2 gets more fun)
-
-`push X` pushes `X` onto the top of the stack. `show/char` converts the last 7 bits of the top float to a character and displays it. `stop` terminates the program.
-
-```
-push nan/a'H  show/char -- H
-push nan/a'e  show/char -- e
-push nan/a'l  show/char -- l
-push nan/a'l  show/char -- l
-push nan/a'o  show/char -- o
-push nan/a',  show/char -- ,
-push nan/x'20 show/char -- space
-push nan/a'w  show/char -- w
-push nan/a'o  show/char -- o
-push nan/a'r  show/char -- r
-push nan/a'l  show/char -- l
-push nan/a'd  show/char -- d
-push nan/a'!  show/char -- !
-push nan/x'0A show/char -- newline
-stop
-```
-
-#### Hello, world! #2
-
-This is more interesting.
-
-We've written our code, which is `show/char drop` repeated 14 times, followed by `stop`, followed by our data. This demonstrates that iNaNe code and data live on the stack together. Without the `stop` in this program, the interpreter would continue on to interpret the text as code.
-
-```
-show/char drop show/char drop show/char drop show/char drop show/char drop show/char drop show/char drop
-show/char drop show/char drop show/char drop show/char drop show/char drop show/char drop show/char drop
-
-stop
-
-nan/x'0A -- newline
-nan/a'!  -- !
-nan/a'd  -- d
-nan/a'l  -- l
-nan/a'r  -- r
-nan/a'o  -- o
-nan/a'w  -- w
-nan/x'20 -- space
-nan/a',  -- ,
-nan/a'o  -- o
-nan/a'l  -- l
-nan/a'l  -- l
-nan/a'e  -- e
-nan/a'H  -- H
-```
+See `examples/`
 
 ## Instructions
 
-- `stop`: terminate the program
-- `{`: push the current instruction index onto the top of the stack, nannified
-- `}`: pop the top value, denannify it, and set the instruction pointer to it
+|Syntax|Semantics|
+|-|-|
+|`stop`|Terminate the program|
+|`{`|Push the current value of the instruction pointer onto the top of the stack, nannified|
+|`}`|Pop the top value, denannify it, and set the instruction pointer to it|
+|`[`|If the top value is signed, noop. If it is unsigned, advance the instruction pointer to the matching `]`.|
+|`]`|Noop|
+|`push`|Push the value after this instruction onto the top of the stack, and then advance to after the value|
+|`dup`|Duplicate the top item on the stack|
+|`swap`|Swap the top two values of the stack|
+|`drop`|Remove the top value from the stack|
+|`++`|Increment the top value of the stack, treating it as an unsigned integer|
+|`--`|Decrement the top value of the stack, treating it as an unsigned integer|
+|`neg`|Toggle the sign bit on the top value of the stack|
+|`rotr`|Rotate the bits of the top value of the stack to the right, wrapping|
+|`rotl`|Rotate the bits of the top value of the stack to the left, wrapping|
+|`get/char`|Read a character from stdin, nannify it, and push it onto the stack. If stdin is empty, it is read as `\0`.|
+|`put`|Display the top value of the stack|
+|`put/all`|Display the entire stack|
+|`put/char`|Display the top value of the stack, denannified and as a character|
+|`put/bits`|Display the top value of the stack as a length-64 bitstring|
 
-Together, `{` and `}` act as a kind of save/load mechanism. The most obvious application is for loops:
+## Errors
 
-```
--- Loops forever, constantly printing 'x'
-push nan/a'x { show/char }
-```
+If your program crashes, it will spit out an error code.
 
-- `[`: If the top value is signed, continue execution. If it is unsigned, advance to the matching `]` instruction.
-- `]`: Noop
+|Error|Type|Stands for|Meaning|
+|-|-|-|-|
+|`NvS`|Parsing|"not valid symbol"|A symbol is invalid|
+|`NvN`|Parsing|"not valid numeral"|A numeral is invalid|
+|`NeN`|Runtime|"not entirely NaNs"|You have introduced a non-NaN value onto the stack|
+|`NiB`|Runtime|"not in bounds"|The instruction pointer has moved off the stack|
+|`NaI`|Runtime|"not an instruction"|Unknown instruction encountered|
+|`NpI`|Runtime|"not paired instruction"|An `{` or `[` is unpaired|
 
-Together, `[` and `]` allow for conditional code:
-
-- `push`: Push the succeeding float onto the top of the stack, and then advance to after the float. Thus `push X Y stop` is the same as `Y stop X`.
-- `2`: Duplicate the top item on the stack
-- `@`: Swap the top two values of the stack
-- `drop`: Remove the top value from the stack
-- `inct`: Increment the top value of the stack, treating it as an unsigned integer
-- `dect`: Decrement the top value of the stack, treating it as an unsigned integer
-- `rotr`: Rotate the bits of the top value of the stack to the right, wrapping
-- `rotl`: Rotate the bits of the top value of the stack to the left, wrapping
-- `read`: Read a character from stdin, nannify it, and push it onto the stack
-- `show`: Display the top value of the stack
-- `show/stack`: Display the entire stack
-- `show/char`: Display the top value of the stack, denannified and as a character
-- `show/bits`: Display the top value of the stack as a length-64 bitstring
-
-#### Errors
-
-If your program crashes, it will spit out an error code. This is what they mean:
-
-- `NeN`: "not entirely NaNs"; you have introduced a non-NaN value onto the stack
-- `NiB`: "not in bounds"; the instruction pointer has moved off the stack
-- `NaI`: "not an instruction"; the given instruction is unknown
-- `NpI`: "not paired instruction"; an `[` is unpaired
