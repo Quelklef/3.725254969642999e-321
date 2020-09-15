@@ -10,7 +10,13 @@
 - The stack must always consist only of valid IEEE 754 64-bit NaN values, or the program will crash
 - Generally hard to use and not very useful
 
-## Terms
+## Usage
+
+Usage: `nim c -r main <path-to-source-file>`
+
+For example: `echo "abc" | nim c -r main examples/cat`
+
+## Terminology
 
 - *the zero nan*: `0111111111111000000000000000000000000000000000000000000000000000`, perhaps the simplest valid 64-bit NaN value.
 
