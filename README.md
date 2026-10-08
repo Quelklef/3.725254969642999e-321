@@ -5,8 +5,6 @@
 ## At a glance
 
 - Stack-based
-- Code and data both live on the same
-  - This isn't really used in any interesting way, though
 - The stack must always consist only of valid IEEE 754 64-bit NaN values, or the program will crash
 - Generally hard to use and not very useful
 
